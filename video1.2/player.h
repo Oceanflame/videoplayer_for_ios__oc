@@ -7,6 +7,12 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
-@interface 
+#import <AVKit/AVKit.h>
+@interface player:NSObject
 
+@property (nonatomic,strong) AVPlayer      *avPlayer;
+@property (nonatomic,strong) AVPlayerItem  *avPlayerItem;
+@property (nonatomic,strong) AVPlayerViewController *avPlayerViewController;
+
+-(void)init:(NSString *)path;
 @end

@@ -7,5 +7,18 @@
 
 #import <Foundation/Foundation.h>
 #import "player.h"
+@interface player()
 
+@end
 
+@implementation player
+
+-(void)init:(NSString *)path
+{
+    NSURL *url = [[NSURL alloc] initWithString:path];
+    self.avPlayer = [[AVPlayer alloc]initWithURL:url ];
+    self.avPlayerItem = self.avPlayer.currentItem;
+    self.avPlayerViewController.player = self.avPlayer;
+}
+
+@end

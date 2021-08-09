@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  video1.2
 //
-//  Created by 哈 on 2021/8/7.
+//  Created by 李雨泽 on 2021/8/7.
 //
 
 #import "AppDelegate.h"
