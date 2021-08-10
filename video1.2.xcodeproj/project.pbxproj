@@ -16,6 +16,7 @@
 		19367D2E26C1227B0078AA57 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19367D2C26C122630078AA57 /* ViewController.m */; };
 		19367D3226C1244A0078AA57 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19367D3026C1242B0078AA57 /* UIKit.framework */; };
 		19ADC1E426C16ADE00D3C333 /* player.m in Sources */ = {isa = PBXBuildFile; fileRef = 19ADC1E326C16ADE00D3C333 /* player.m */; };
+		6DA2D2A517D2FC82BF5A329B /* libPods-video1.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2537D138D361777B2C2E2267 /* libPods-video1.2.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,9 @@
 		19367D3026C1242B0078AA57 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		19ADC1E226C16AC500D3C333 /* player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
 		19ADC1E326C16ADE00D3C333 /* player.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = player.m; sourceTree = "<group>"; };
+		2537D138D361777B2C2E2267 /* libPods-video1.2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-video1.2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		370330059C37978017402EAE /* Pods-video1.2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-video1.2.debug.xcconfig"; path = "Target Support Files/Pods-video1.2/Pods-video1.2.debug.xcconfig"; sourceTree = "<group>"; };
+		B2A0F7AE091150AC5C3C3E57 /* Pods-video1.2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-video1.2.release.xcconfig"; path = "Target Support Files/Pods-video1.2/Pods-video1.2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				19367D3226C1244A0078AA57 /* UIKit.framework in Frameworks */,
+				6DA2D2A517D2FC82BF5A329B /* libPods-video1.2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +95,7 @@
 				0755798D26BEBD0E00EA1C3A /* video1.2UITests */,
 				0755796526BEBD0D00EA1C3A /* Products */,
 				19367D2F26C1242B0078AA57 /* Frameworks */,
+				65E163D61FAC6F0924CE9903 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -142,8 +148,19 @@
 			isa = PBXGroup;
 			children = (
 				19367D3026C1242B0078AA57 /* UIKit.framework */,
+				2537D138D361777B2C2E2267 /* libPods-video1.2.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		65E163D61FAC6F0924CE9903 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				370330059C37978017402EAE /* Pods-video1.2.debug.xcconfig */,
+				B2A0F7AE091150AC5C3C3E57 /* Pods-video1.2.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,9 +170,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0755799326BEBD0E00EA1C3A /* Build configuration list for PBXNativeTarget "video1.2" */;
 			buildPhases = (
+				8B0CF7C0470BA70921665A93 /* [CP] Check Pods Manifest.lock */,
 				0755796026BEBD0D00EA1C3A /* Sources */,
 				0755796126BEBD0D00EA1C3A /* Frameworks */,
 				0755796226BEBD0D00EA1C3A /* Resources */,
+				A41F08078734FAF6A553A844 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -268,6 +287,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8B0CF7C0470BA70921665A93 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-video1.2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A41F08078734FAF6A553A844 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-video1.2/Pods-video1.2-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-video1.2/Pods-video1.2-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-video1.2/Pods-video1.2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0755796026BEBD0D00EA1C3A /* Sources */ = {
@@ -438,6 +499,7 @@
 		};
 		0755799426BEBD0E00EA1C3A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 370330059C37978017402EAE /* Pods-video1.2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -455,6 +517,7 @@
 		};
 		0755799526BEBD0E00EA1C3A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2A0F7AE091150AC5C3C3E57 /* Pods-video1.2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

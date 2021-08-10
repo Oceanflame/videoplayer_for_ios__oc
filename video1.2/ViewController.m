@@ -17,6 +17,8 @@ static NSString * const kDemoTableViewCellReuseIdentifier = @"MyDemoCell";
 @property NSArray<NSString *> *paths;
 @property NSArray<NSString *> *nameList;//存放文件地址
 @property AVPlayerViewController *playerViewController;
+@property AVPlayerLayer *playerlayer;//渲染层
+@property AVPlayer *player;
 
 @end
 
@@ -73,34 +75,50 @@ static NSString * const kDemoTableViewCellReuseIdentifier = @"MyDemoCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    _docpath =[self.paths objectAtIndex:0];
     NSString *filepath =[_docpath stringByAppendingString:@"/"];
     filepath = [filepath stringByAppendingString:self.nameList[indexPath.row]];
-    NSURL *url = [[NSURL alloc] initWithString:filepath];
-//    player * videoplayer = [[player alloc]init];
-//    [videoplayer init:filepath];
+    NSLog(@"%@",filepath);
+    //NSString *newpath =[filepath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSURL *url = [[NSURL alloc]initFileURLWithPath:filepath isDirectory:YES];
+    NSLog(@"%@",url);
+    
+//    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:url];
+//    _player = [AVPlayer playerWithPlayerItem:item];
+//    
+//    AVPlayerLayer *layer1 = [AVPlayerLayer playerLayerWithPlayer:_player];
+//    layer1.videoGravity = AVLayerVideoGravityResizeAspectFill;
+//    layer1.frame = self.view.layer.bounds;
+//    [self.view.layer addSublayer:layer1];
+//    [_player play];
+    
+
     if (_playerViewController) {
             _playerViewController = nil;
         }
-        // 3、配置媒体播放控制器
+
+        // 配置媒体播放控制器
         _playerViewController = [[AVPlayerViewController alloc]  init];
         _playerViewController.delegate = self;
     //    _playerViewController.showsPlaybackControls = NO;
     //    _playerViewController.view.userInteractionEnabled = NO;
         // 设置媒体源数据
         _playerViewController.player = [AVPlayer playerWithURL:url];
+        self.playerlayer =[AVPlayerLayer playerLayerWithPlayer:_playerViewController.player];
+        [self.view.layer addSublayer:self.playerlayer];
         // 设置拉伸模式
         _playerViewController.videoGravity = AVLayerVideoGravityResizeAspect;
         // 设置是否显示媒体播放组件
-        // 播放视频
-        [_playerViewController.player play];
+        [_playerViewController.player play];// 播放视频
         // 设置媒体播放器视图大小
-        _playerViewController.view.bounds = CGRectMake(0, 100, 320, 400);
+        _playerViewController.view.bounds = UIScreen.mainScreen.bounds;//CGRectMake(0, 100, 320, 400); // 设置媒体播放器视图大小(全屏)
         _playerViewController.view.center = self.view.center;
 
             // 推送至媒体播放器进行播放
-    //     [self presentViewController:_playerViewController animated:YES completion:nil];
+    //   [self presentViewController:_playerViewController animated:YES completion:nil];
     //     直接在本视图控制器播放
-        [self addChildViewController:_playerViewController];
+     //   [self addChildViewController:_playerViewController];
         [self.view addSubview:_playerViewController.view];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
 
