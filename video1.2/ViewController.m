@@ -19,6 +19,9 @@ static NSString * const kDemoTableViewCellReuseIdentifier = @"MyDemoCell";
 @property AVPlayerViewController *playerViewController;
 @property AVPlayerLayer *playerlayer;//渲染层
 @property AVPlayer *player;
+@property UIButton *back;
+@property UIView *backview;
+@property (nonatomic, strong) UIControl *closeControl;
 
 @end
 
@@ -83,44 +86,49 @@ static NSString * const kDemoTableViewCellReuseIdentifier = @"MyDemoCell";
     
     NSURL *url = [[NSURL alloc]initFileURLWithPath:filepath isDirectory:YES];
     NSLog(@"%@",url);
-    
-//    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:url];
-//    _player = [AVPlayer playerWithPlayerItem:item];
-//    
-//    AVPlayerLayer *layer1 = [AVPlayerLayer playerLayerWithPlayer:_player];
-//    layer1.videoGravity = AVLayerVideoGravityResizeAspectFill;
-//    layer1.frame = self.view.layer.bounds;
-//    [self.view.layer addSublayer:layer1];
-//    [_player play];
-    
 
     if (_playerViewController) {
             _playerViewController = nil;
         }
-
-        // 配置媒体播放控制器
-        _playerViewController = [[AVPlayerViewController alloc]  init];
-        _playerViewController.delegate = self;
-    //    _playerViewController.showsPlaybackControls = NO;
-    //    _playerViewController.view.userInteractionEnabled = NO;
-        // 设置媒体源数据
-        _playerViewController.player = [AVPlayer playerWithURL:url];
+        _playerViewController = [[AVPlayerViewController alloc]  init];// 配置媒体播放控制器
+        _playerViewController.delegate = self;//打开默认组件
+        _playerViewController.showsPlaybackControls = YES;// 设置是否显示媒体播放组件
+    _playerViewController.allowsPictureInPicturePlayback = NO;//无画中画
+        _playerViewController.player = [AVPlayer playerWithURL:url];// 设置媒体源数据
         self.playerlayer =[AVPlayerLayer playerLayerWithPlayer:_playerViewController.player];
         [self.view.layer addSublayer:self.playerlayer];
-        // 设置拉伸模式
-        _playerViewController.videoGravity = AVLayerVideoGravityResizeAspect;
-        // 设置是否显示媒体播放组件
+        _playerViewController.videoGravity = AVLayerVideoGravityResizeAspect;// 设置拉伸模式
         [_playerViewController.player play];// 播放视频
-        // 设置媒体播放器视图大小
         _playerViewController.view.bounds = UIScreen.mainScreen.bounds;//CGRectMake(0, 100, 320, 400); // 设置媒体播放器视图大小(全屏)
-        _playerViewController.view.center = self.view.center;
-
-            // 推送至媒体播放器进行播放
-    //   [self presentViewController:_playerViewController animated:YES completion:nil];
-    //     直接在本视图控制器播放
-     //   [self addChildViewController:_playerViewController];
+        _playerViewController.view.center = self.view.center;// 推送至媒体播放器进行播放
+//      [self presentViewController:_playerViewController animated:YES completion:nil];
+//      直接在本视图控制器播放
+        _backview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+        _back = [UIButton buttonWithType:UIButtonTypeCustom];//设置返回按钮
+        [_back setBackgroundColor:UIColor.blueColor];//设置按钮颜色
+        [_backview addSubview:_back];//加入到播放层
+        [self addChildViewController:_playerViewController];
         [self.view addSubview:_playerViewController.view];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+        
+    
+}
 
+- (UIControl *)closeControl
+{
+    if (!_closeControl) {
+        _closeControl = [[UIControl alloc] init];
+        [_closeControl addTarget:self action:@selector(dimissSelf) forControlEvents:UIControlEventTouchUpInside];
+        _closeControl.backgroundColor = [UIColor colorWithRed:0.14 green:0.14 blue:0.14 alpha:0.8];
+        _closeControl.tintColor = [UIColor colorWithWhite:1 alpha:0.55];
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        UIImage *normalImage = [UIImage imageNamed:@"closeAV.png" inBundle:bundle compatibleWithTraitCollection:nil];
+        [_closeControl.layer setContents:(id)normalImage.CGImage];
+        _closeControl.layer.contentsGravity = kCAGravityCenter;
+        _closeControl.layer.cornerRadius = 17;
+        _closeControl.layer.masksToBounds = YES;
+    }
+    return _closeControl;
+    
 }
 @end
