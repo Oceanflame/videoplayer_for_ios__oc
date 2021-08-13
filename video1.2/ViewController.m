@@ -103,32 +103,44 @@ static NSString * const kDemoTableViewCellReuseIdentifier = @"MyDemoCell";
         _playerViewController.view.center = self.view.center;// 推送至媒体播放器进行播放
 //      [self presentViewController:_playerViewController animated:YES completion:nil];
 //      直接在本视图控制器播放
-        _backview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-        _back = [UIButton buttonWithType:UIButtonTypeCustom];//设置返回按钮
+        _back = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
+//        _back = [UIButton buttonWithType:UIButtonTypeCustom];//设置返回按钮
         [_back setBackgroundColor:UIColor.blueColor];//设置按钮颜色
-        [_backview addSubview:_back];//加入到播放层
+        [_back addTarget:self action:@selector(closeControl) forControlEvents:UIControlEventTouchUpInside];// 点击事件
+//        [_backview addSubview:_back];//加入到播放层
         [self addChildViewController:_playerViewController];
         [self.view addSubview:_playerViewController.view];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+        [self.view addSubview:_back];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(back) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
         
     
 }
 
-- (UIControl *)closeControl
+-(UIControl *)closeControl
 {
-    if (!_closeControl) {
-        _closeControl = [[UIControl alloc] init];
-        [_closeControl addTarget:self action:@selector(dimissSelf) forControlEvents:UIControlEventTouchUpInside];
-        _closeControl.backgroundColor = [UIColor colorWithRed:0.14 green:0.14 blue:0.14 alpha:0.8];
-        _closeControl.tintColor = [UIColor colorWithWhite:1 alpha:0.55];
-        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-        UIImage *normalImage = [UIImage imageNamed:@"closeAV.png" inBundle:bundle compatibleWithTraitCollection:nil];
-        [_closeControl.layer setContents:(id)normalImage.CGImage];
-        _closeControl.layer.contentsGravity = kCAGravityCenter;
-        _closeControl.layer.cornerRadius = 17;
-        _closeControl.layer.masksToBounds = YES;
+    if(_back)
+    {
+        [_playerViewController.view removeFromSuperview];
     }
-    return _closeControl;
-    
+    return _back;
 }
+
+
+//- (UIControl *)closeControl
+//{
+//    if (!_closeControl) {
+//        _closeControl = [[UIControl alloc] init];
+//        [_closeControl addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+//        _closeControl.backgroundColor = [UIColor colorWithRed:0.14 green:0.14 blue:0.14 alpha:0.8];
+//        _closeControl.tintColor = [UIColor colorWithWhite:1 alpha:0.55];
+//        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+//        UIImage *normalImage = [UIImage imageNamed:@"closeAV.png" inBundle:bundle compatibleWithTraitCollection:nil];
+//        [_closeControl.layer setContents:(id)normalImage.CGImage];
+//        _closeControl.layer.contentsGravity = kCAGravityCenter;
+//        _closeControl.layer.cornerRadius = 17;
+//        _closeControl.layer.masksToBounds = YES;
+//    }
+//    return _closeControl;
+//    
+//}
 @end
